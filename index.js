@@ -1,9 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import "dotenv/config";
-import { takeScreenshot } from "./util.js";
+import cors from "cors";
 import cronJob from "./cron.js";
 import sql from "./db.js";
+import "dotenv/config";
+import { takeScreenshot } from "./util.js";
 
 const app = express();
 const PORT = process.env.PORT || 9090;
