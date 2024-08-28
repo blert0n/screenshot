@@ -3,7 +3,7 @@ import http from "http";
 
 const backendUrl = process.env.BACKEND_URL ?? "http://localhost:9090";
 
-const cronJob = new cron.CronJob("*/14 * * * *", () => {
+const cronJob = new cron.CronJob("*/12 * * * *", () => {
   http
     .get(backendUrl, (res) => {
       if (res.statusCode === 200) {
