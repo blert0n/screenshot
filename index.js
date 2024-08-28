@@ -8,6 +8,13 @@ import sql from "./db.js";
 const app = express();
 const PORT = process.env.PORT || 9090;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+
+app.use(
+  cors({
+    origin: ALLOWED_ORIGIN,
+  })
+);
 
 app.use(express.json({ limit: "50mb" }));
 
