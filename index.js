@@ -2,13 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cronJob from "./cron.js";
-import sql from "./db.js";
 import "dotenv/config";
 import { takeScreenshot } from "./util.js";
 
 const app = express();
 const PORT = process.env.PORT || 9090;
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
 
 app.use(
@@ -26,15 +24,17 @@ app.get("/", (req, res) => {
 app.post("/thumbnail", bodyParser.json(), async (req, res) => {
   const payload = req.body;
 
-  if (!payload.formId)
+  if (!payload.url || !payload.id)
     return res.status(400).send({
       success: false,
       message: "Url is missing",
     });
 
-  const url = `${FRONTEND_URL}/form/${payload.formId}`;
-
-  const imageUrl = await takeScreenshot(url, payload.fullpage);
+  const imageUrl = await takeScreenshot(
+    url,
+    payload.fullpage,
+    payload.backgroundColor
+  );
 
   if (!imageUrl)
     return res.status(400).send({
@@ -42,13 +42,18 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
       message: "Upload failed",
     });
 
-  await sql`
-    UPDATE public."Form"
-  SET thumbnail=${imageUrl} WHERE id=${payload.formId}`;
+  // await sql`
+  //   UPDATE public."Form"
+  // SET thumbnail=${imageUrl} WHERE id=${payload.id}`;
+
+  const data = {
+    id: payload.id,
+    imageUrl,
+  };
 
   return res.status(200).send({
     success: true,
-    message: imageUrl,
+    data,
   });
 });
 

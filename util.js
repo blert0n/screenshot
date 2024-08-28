@@ -8,7 +8,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function takeScreenshot(url, fullpage = false) {
+export async function takeScreenshot(
+  url,
+  fullpage = false,
+  backgroundColor = "#ffffff"
+) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
@@ -28,6 +32,7 @@ export async function takeScreenshot(url, fullpage = false) {
       html, body, div#__next, main {
           height: auto !important;
           width: auto !important;
+          background-color: ${backgroundColor};
       }
   `,
   });
