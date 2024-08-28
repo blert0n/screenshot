@@ -12,6 +12,7 @@ const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
 app.use(
   cors({
     origin: ALLOWED_ORIGIN,
+    methods: "POST,GET",
   })
 );
 
