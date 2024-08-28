@@ -55,5 +55,5 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
 cronJob.start();
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Screenshot app listening on port ${PORT}`);
 });

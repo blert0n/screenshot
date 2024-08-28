@@ -1,10 +1,12 @@
 import cron from "cron";
 import http from "http";
+import https from "https";
 
 const backendUrl = process.env.BACKEND_URL ?? "http://localhost:9090";
+const protocol = backendUrl.startsWith("https") ? https : http;
 
-const cronJob = new cron.CronJob("*/12 * * * *", () => {
-  http
+const cronJob = new cron.CronJob("*/5 * * * *", () => {
+  protocol
     .get(backendUrl, (res) => {
       if (res.statusCode === 200) {
         console.log("Server restarted");
