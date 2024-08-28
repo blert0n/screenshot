@@ -31,7 +31,7 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
     });
 
   const imageUrl = await takeScreenshot(
-    url,
+    payload.url,
     payload.fullpage,
     payload.backgroundColor
   );
@@ -41,10 +41,6 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
       success: false,
       message: "Upload failed",
     });
-
-  // await sql`
-  //   UPDATE public."Form"
-  // SET thumbnail=${imageUrl} WHERE id=${payload.id}`;
 
   const data = {
     id: payload.id,
