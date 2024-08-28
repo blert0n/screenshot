@@ -8,7 +8,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function takeScreenshot(url) {
+export async function takeScreenshot(url, fullpage = false) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
@@ -32,7 +32,7 @@ export async function takeScreenshot(url) {
   `,
   });
 
-  const screenshotBuffer = await page.screenshot({ fullPage: true });
+  const screenshotBuffer = await page.screenshot({ fullPage: fullpage });
   await browser.close();
 
   const imageUrl = await uploadToCloudinary(screenshotBuffer);

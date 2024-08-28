@@ -26,7 +26,7 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
 
   const url = `${FRONTEND_URL}/form/${payload.formId}`;
 
-  const imageUrl = await takeScreenshot(url);
+  const imageUrl = await takeScreenshot(url, payload.fullpage);
 
   if (!imageUrl)
     return res.status(400).send({
@@ -40,7 +40,7 @@ app.post("/thumbnail", bodyParser.json(), async (req, res) => {
 
   return res.status(200).send({
     success: true,
-    message: "imageUrl",
+    message: imageUrl,
   });
 });
 
